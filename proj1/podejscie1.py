@@ -14,21 +14,15 @@ def read_data():
     return json.load(os.stdin)
 
 
-def count_days(semester):
-    '''
-    First is number of days occupied in the semster.
-
-    :param semster: list(tuple(course_name, num_days, num_points))
-    :returns: tuple(sum_days, sum_points)
-    '''
-    return sum([s[1] for s in semester])
 
 def get_k(semesters):
     '''
     calculate number of points
 
     '''
-    return sum([[c[2] for c in s] for s in semesters])
+    if(isinstance(semesters[0], list)):
+        return sum([[c[2] for c in s] for s in semesters])
+    return sum([c[2] for c in semesters])
 
 
 def get_m(semesters):
