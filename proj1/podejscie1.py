@@ -39,63 +39,20 @@ def get_m(semesters):
         return sum([[c[1] for c in s] for s in semesters])
     return sum([s[1] for s in semesters])
 
-def add_course(semesters, course):
-    for s in semesters:
-        if(get_m(s) )
-
-    return False
-
-def solve_aporx(data):
-    '''
-    Aproximately solving the given problem using a simple heuristic.
-    The algorithm assumes that a course is as usefull as the ration of points to days needed
-
-    one of the problems might be the existance of low valued and not very demanding courses.
-    Many small courses might <zapchać> the semesters not allowing larger courses to be attended.
-
-    O(mn) time but may not even find the existing solution
-
-    :param data: dict - parsed json read by read_data()
-    '''
-    N = data['N']
-    m = data['m']
-    coursed = data['courses']
-    
-    list_of_tuples = []
-    for k, v in courses.items():
-        list_of_tuples.append((k, *v))
-
-    list_of_tuples = sorted(list_of_tuples, key = lambda x: x[2] / x[1])
-    
-    semesters = [[] for i in range(N)]
-
-    total_points = 0
-    for t in list_of_tuples:
-        for s in semestes:
-            days = count_points(s)
-            if(days + t[1] <= m):
-                total_points += t[2]
-                s.append(t)
-                break
-        if(total_points >= k):
-            break
-
-    return semesters
-
-
 
 class solver:
 
     def __init__(self, N, m, k, courses):
         self.N = N
 
-        # days
-        self.m = m
+        # days 
+        self.m = m * N
+        self.days_per_sem = m
 
         # points
         self.k = k
 
-        # best number of days
+        # best sum of days
         self.best_m = None
         self.courses = courses
         self.best_semesters = [[] for i in range(N)]
@@ -118,7 +75,10 @@ class solver:
             copy_courses = courses.copy()
             current_course = courses[i]
             # remebmer to add course to semester
-            current_semesters = add_course(semesters = current_semesters, course = current_course)
+            if(not self._add_course(semesters = current_semesters, course = current_course)):
+                # course was too large for any of the semesters
+                continue
+
             del copy_courses[i]
             days = self._solve(current_semesters.copy(), copy_courses)
 
@@ -126,6 +86,13 @@ class solver:
         if(self.best_m is None):
             self.best_m = sys.maxint
         self._solve(self.best_semesters.copy(), self.courses.copy())
+
+    def _add_course(semesters, course):
+        for s in semesters:
+            if(get_m(s) + course[1]< self.days_per_sem):
+                s.append(course)
+                return True
+        return False
 
     def get_best_semesters(self):
         return self.best_semesters
