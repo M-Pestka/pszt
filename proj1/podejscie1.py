@@ -1,0 +1,140 @@
+import json
+import os
+
+def read_data():
+    '''
+    loads a json from standard input.
+    JSON should contain:
+    * N - number of semesters
+    * m - number of days devoted to learning
+    * k - number of points needed.
+    * courses - dictionary of all courses where key is the
+        courses name and value is a tuple(number of days needed, number of points)
+    '''
+    return json.load(os.stdin)
+
+
+def count_days(semester):
+    '''
+    First is number of days occupied in the semster.
+
+    :param semster: list(tuple(course_name, num_days, num_points))
+    :returns: tuple(sum_days, sum_points)
+    '''
+    return sum([s[1] for s in semester])
+
+def get_k(semesters):
+    '''
+    calculate number of points
+
+    '''
+    return sum([[c[2] for c in s] for s in semesters])
+
+
+def get_m(semesters):
+    '''
+    returns number of days
+    '''
+    if(isinstance(semesters[0], list)):
+        return sum([[c[1] for c in s] for s in semesters])
+    return sum([s[1] for s in semesters])
+
+def add_course(semesters, course):
+    for s in semesters:
+        if(get_m(s) )
+
+    return False
+
+def solve_aporx(data):
+    '''
+    Aproximately solving the given problem using a simple heuristic.
+    The algorithm assumes that a course is as usefull as the ration of points to days needed
+
+    one of the problems might be the existance of low valued and not very demanding courses.
+    Many small courses might <zapchać> the semesters not allowing larger courses to be attended.
+
+    O(mn) time but may not even find the existing solution
+
+    :param data: dict - parsed json read by read_data()
+    '''
+    N = data['N']
+    m = data['m']
+    coursed = data['courses']
+    
+    list_of_tuples = []
+    for k, v in courses.items():
+        list_of_tuples.append((k, *v))
+
+    list_of_tuples = sorted(list_of_tuples, key = lambda x: x[2] / x[1])
+    
+    semesters = [[] for i in range(N)]
+
+    total_points = 0
+    for t in list_of_tuples:
+        for s in semestes:
+            days = count_points(s)
+            if(days + t[1] <= m):
+                total_points += t[2]
+                s.append(t)
+                break
+        if(total_points >= k):
+            break
+
+    return semesters
+
+
+
+class solver:
+
+    def __init__(self, N, m, k, courses):
+        self.N = N
+
+        # days
+        self.m = m
+
+        # points
+        self.k = k
+
+        # best number of days
+        self.best_m = None
+        self.courses = courses
+        self.best_semesters = [[] for i in range(N)]
+
+    def _solve(current_semesters, courses):
+        if(get_m(current_semesters) > self.best_m):
+            # if we already have worse solution
+            return
+
+        if(get_k(current_semesters) >= self.k):
+            self.best_m = get_m(current_semesters)
+            self.best_semesters = current_semesters
+            return 
+
+        if(len(courses) = 0): 
+            if(get_k(current_semesters) < self.k):
+                raise ValueError()
+
+        for i in range(len(courses)):
+            copy_courses = courses.copy()
+            current_course = courses[i]
+            # remebmer to add course to semester
+            current_semesters = add_course(semesters = current_semesters, course = current_course)
+            del copy_courses[i]
+            days = self._solve(current_semesters.copy(), copy_courses)
+
+    def solve(self):
+        if(self.best_m is None):
+            self.best_m = sys.maxint
+        self._solve(self.best_semesters.copy(), self.courses.copy())
+
+    def get_best_semesters(self):
+        return self.best_semesters
+
+    def get_min_num_days(self):
+        return self.best_m
+
+
+
+
+            
+
