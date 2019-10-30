@@ -1,3 +1,4 @@
+import sys
 import json
 import os
 
@@ -20,8 +21,11 @@ def get_k(semesters):
     calculate number of points
 
     '''
+    if(len(semesters) == 0):
+        return 0
+        
     if(isinstance(semesters[0], list)):
-        return sum([[c[2] for c in s] for s in semesters])
+        return sum([sum([c[2] for c in s]) for s in semesters])
     return sum([c[2] for c in semesters])
 
 
@@ -29,12 +33,15 @@ def get_m(semesters):
     '''
     returns number of days
     '''
+    if(len(semesters) == 0):
+        return 0
+        
     if(isinstance(semesters[0], list)):
-        return sum([[c[1] for c in s] for s in semesters])
+        return sum([sum([c[1] for c in s]) for s in semesters])
     return sum([s[1] for s in semesters])
 
 
-class solver:
+class Solver:
 
     def __init__(self, N, m, k, courses):
         self.N = N
@@ -51,7 +58,7 @@ class solver:
         self.courses = courses
         self.best_semesters = [[] for i in range(N)]
 
-    def _solve(current_semesters, courses):
+    def _solve(self, current_semesters, courses):
         if(get_m(current_semesters) > self.best_m):
             # if we already have worse solution
             return
@@ -61,7 +68,7 @@ class solver:
             self.best_semesters = current_semesters
             return 
 
-        if(len(courses) = 0): 
+        if(len(courses) == 0): 
             if(get_k(current_semesters) < self.k):
                 raise ValueError()
 
@@ -78,12 +85,12 @@ class solver:
 
     def solve(self):
         if(self.best_m is None):
-            self.best_m = sys.maxint
+            self.best_m = sys.maxsize
         self._solve(self.best_semesters.copy(), self.courses.copy())
 
-    def _add_course(semesters, course):
+    def _add_course(self, semesters, course):
         for s in semesters:
-            if(get_m(s) + course[1]< self.days_per_sem):
+            if(get_m(s) + course[1] <= self.days_per_sem):
                 s.append(course)
                 return True
         return False
