@@ -32,8 +32,7 @@ class Test_utility_functions(unittest.TestCase):
         self.assertEqual(get_m(semesters[-1]), 0)
         self.assertEqual(get_m([[] for i in range(5)]), 0)
 
-class Test_safd(unittest.TestCase):
-
+class Test_solver(unittest.TestCase):
 
     def test_large_example(self):
         self.assertTrue(False)
@@ -50,6 +49,11 @@ class Test_safd(unittest.TestCase):
 
     def test_impossible_example(self):
         self.assertTrue(False)
+
+class Test_data_loading(unittest.TestCase):
+
+    def test_example(self):
+        pass
         
 
 if(__name__ == '__main__'):
