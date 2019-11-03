@@ -54,7 +54,7 @@ class Solver:
         :param N: number of semesters
         :param m: number of days of studying per semester
         :param k: number of points needed
-        :param courses: list off all available courses
+        :param courses: list off all available courses (<name>, num_days, num_points)
         :returns: None
         '''
         self.N = N
@@ -72,7 +72,7 @@ class Solver:
         self.best_semesters = [[] for i in range(N)]
 
     def _solve(self, current_semesters, courses):
-        if(get_m(current_semesters) > self.best_m):
+        if(get_m(current_semesters) >= self.best_m):
             # if we already have worse solution
             return
 
