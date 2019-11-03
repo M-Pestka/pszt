@@ -1,4 +1,5 @@
 import sys
+import copy
 import json
 import os
 
@@ -79,7 +80,10 @@ class Solver:
         if(get_k(current_semesters) >= self.k):
             # found a better solution
             self.best_m = get_m(current_semesters)
-            self.best_semesters = current_semesters
+            # tutaj musi być deep copy ponieważ
+            # płytka kopia kpiuje tylko liste semestów
+            # a nie każdy semestr z osobna
+            self.best_semesters = copy.deepcopy(current_semesters)
             return 
 
         if(len(courses) == 0): 
@@ -88,9 +92,9 @@ class Solver:
 
         # iterate over courses
         for i in range(len(courses)):
-            copy_courses = courses.copy()
+            copy_courses = copy.deepcopy(courses)
             current_course = courses[i]
-            current_semesters_copy = current_semesters.copy()
+            current_semesters_copy = copy.deepcopy(current_semesters)
             # remebmer to add course to semester
             if(not self._add_course(semesters = current_semesters_copy, course = current_course)):
                 # course was too large for any of the semesters
