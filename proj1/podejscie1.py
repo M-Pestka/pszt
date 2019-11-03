@@ -110,7 +110,7 @@ class Solver:
             self.best_m = sys.maxsize
 
         # solve for all semesters anf courses
-        self._solve(self.best_semesters.copy(), self.courses.copy())
+        self._solve(copy.deepcopy(self.best_semesters), copy.deepcopy(self.courses))
 
         # if the solutions has not improved
         if(self.best_m is sys.maxsize):
